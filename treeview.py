@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 
+# Missing required key
 ERROR_REQUIRED    = 1
+# Expected nested key value
 ERROR_NESTED      = 2
+# Missing key rule
 ERROR_MISSINGRULE = 3
+# Contains duplicates
 ERROR_DUPLICATE   = 4
+# Invalid value
 ERROR_CONSTRAINT  = 5
-ERROR_INTERNAL    = 6
+# Constraint function failed
+ERROR_FUNCTION    = 6
+# Invalid tuple format
+ERROR_TUPLE       = 7
 
 def parse(data, rules):
     """
@@ -37,8 +45,10 @@ def parse(data, rules):
 
     for key, value in rules.items():
         if isinstance(value, tuple):
+            if len(value) != 2:
+                return ERROR_TUPLE
             # Key is required
-            if not data.get(key) and value[0]:
+            elif not data.get(key) and value[0]:
                 return ERROR_REQUIRED
             # Key has constraint function
             elif callable(value[1]):
@@ -46,7 +56,7 @@ def parse(data, rules):
                     if not value[1](data.get(key)):
                         return ERROR_CONSTRAINT
                 except:
-                    return ERROR_INTERNAL
+                    return ERROR_FUNCTION
 
             # Key is nested
             elif isinstance(value[1], dict):
@@ -79,8 +89,10 @@ def print_parse(data, rules, depth=0):
 
     for key, value in rules.items():
         if isinstance(value, tuple):
+            if len(value) != 2:
+                print("[Error] A tuple must have exactly two elements")
             # Key is required
-            if not data.get(key) and value[0]:
+            elif not data.get(key) and value[0]:
                 print("[Error] Key '{}' required but not found".format(key))
             # Key has constraint function
             elif callable(value[1]):
@@ -89,7 +101,7 @@ def print_parse(data, rules, depth=0):
                         print("[Error] Invalid value detected for key '{}'"
                             .format(key))
                 except:
-                    print("[Error] Internal error")
+                    print("[Error] Constraint function failed")
             # Key is nested
             elif isinstance(value[1], dict):
                 if not isinstance(data.get(key), dict):

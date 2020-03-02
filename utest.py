@@ -63,7 +63,7 @@ def test_treeview():
 
     rules_y1 = {
         "a": 0,
-        "b": (0, lambda x, y: x != 2),
+        "b": 0,
         "c": (0, {
             "x": 0,
             "y": 0,
