@@ -50,8 +50,9 @@ def print_parse(data, rules, depth=0):
     Prints parser validation results
     """
     # Check for keys that have no corresponding rule
-    if len(set(data.keys()).difference(set(rules))) > 0:
-        print("[Error] Unspecified keys detected")
+    invalid_keys = set(data.keys()).difference(set(rules))
+    if len(invalid_keys) > 0:
+        print("[Error] Unspecified keys detected: {}".format(" ".join("'" + x + "'" for x in invalid_keys)))
 
     # Check for duplicate keys
     if len(data) != len(set(data)):

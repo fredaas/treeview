@@ -26,13 +26,13 @@ def test_treeview():
         },
     }
     rules = {
-        "a": True,
-        "b": True,
-        "c": False,
-        "d": (True, {
-            "x": True,
-            "y": (False, {
-                "p": True
+        "a": 1,
+        "b": 1,
+        "c": 0,
+        "d": (1, {
+            "x": 1,
+            "y": (0, {
+                "p": 1
             }),
         }),
     }
