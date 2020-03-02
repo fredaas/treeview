@@ -15,7 +15,7 @@ def pprint(data, depth=0):
             print(' ' * space * (depth + 1) + str(value))
 
 def test_treeview():
-    data = {
+    data_x = {
         "a": 10,
         "c": 42,
         "d": {
@@ -28,7 +28,7 @@ def test_treeview():
         "q": 123,
     }
 
-    rules_test1 = {
+    rules_x1 = {
         "a": (1, lambda x: x >= 10),
         "c": 0,
         "d": (1, {
@@ -41,7 +41,7 @@ def test_treeview():
         "q": 0,
     }
 
-    rules_test2 = {
+    rules_x2 = {
         "a": (1, lambda x: x < 10),
         "b": 1,
         "c": 0,
@@ -53,22 +53,47 @@ def test_treeview():
         }),
     }
 
+    data_y = {
+        "a": 1,
+        "c": {
+            "x": 3,
+            "y": 4,
+        },
+    }
+
+    rules_y1 = {
+        "a": 0,
+        "b": (0, lambda x: x != 2),
+        "c": (0, {
+            "x": 0,
+            "y": 0,
+        }),
+    }
+
     error = 0
 
     print("TEST 1")
-    error = parse(data, rules_test1)
+    error = parse(data_x, rules_x1)
     if not error:
         print("OK")
     else:
-        print_parse(data, rules_test1)
+        print_parse(data_x, rules_x1)
         print("[Error] Code: {}".format(error))
 
     print("TEST 2")
-    error = parse(data, rules_test2)
+    error = parse(data_x, rules_x2)
     if not error:
         print("OK")
     else:
-        print_parse(data, rules_test2)
+        print_parse(data_x, rules_x2)
+        print("[Error] Code: {}".format(error))
+
+    print("TEST 3")
+    error = parse(data_y, rules_y1)
+    if not error:
+        print("OK")
+    else:
+        print_parse(data_y, rules_y1)
         print("[Error] Code: {}".format(error))
 
 if __name__ == "__main__":
