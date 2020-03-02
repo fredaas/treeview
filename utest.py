@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import treeview
+from treeview import ( parse, print_parse )
 
 def pprint(data, depth=0):
     """
@@ -22,23 +22,48 @@ def test_treeview():
             "x": 1,
             "y": {
                 "z": 2,
+                "p": 3,
             },
         },
+        "q": 123,
     }
-    rules = {
-        "a": 1,
+
+    rules_test1 = {
+        "a": (1, lambda x: x >= 10),
+        "c": 0,
+        "d": (1, {
+            "x": 1,
+            "y": (0, {
+                "z": (1, lambda x: x == 2),
+                "p": 1,
+            }),
+        }),
+        "q": 0,
+    }
+
+    rules_test2 = {
+        "a": (1, lambda x: x < 10),
         "b": 1,
         "c": 0,
         "d": (1, {
             "x": 1,
             "y": (0, {
-                "p": 1
+                "z": (1, lambda x: x != 2),
             }),
         }),
     }
 
-    pprint(data)
-    treeview.print_parse(data, rules)
+    print("TEST 1")
+    if parse(data, rules_test1) == 0:
+        print("OK")
+    else:
+        print_parse(data, rules_test1)
+
+    print("TEST 2")
+    if parse(data, rules_test2) == 0:
+        print("OK")
+    else:
+        print_parse(data, rules_test2)
 
 if __name__ == "__main__":
     test_treeview()
