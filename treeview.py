@@ -5,6 +5,7 @@ ERROR_NESTED      = 2
 ERROR_MISSINGRULE = 3
 ERROR_DUPLICATE   = 4
 ERROR_CONSTRAINT  = 5
+ERROR_INTERNAL    = 6
 
 def parse(data, rules):
     """
@@ -41,8 +42,12 @@ def parse(data, rules):
                 return ERROR_REQUIRED
             # Key has constraint function
             elif callable(value[1]):
-                if not value[1](data.get(key)):
-                    return ERROR_CONSTRAINT
+                try:
+                    if not value[1](data.get(key)):
+                        return ERROR_CONSTRAINT
+                except:
+                    return ERROR_INTERNAL
+
             # Key is nested
             elif isinstance(value[1], dict):
                 if not isinstance(data.get(key), dict):
@@ -79,9 +84,12 @@ def print_parse(data, rules, depth=0):
                 print("[Error] Key '{}' required but not found".format(key))
             # Key has constraint function
             elif callable(value[1]):
-                if not value[1](data.get(key)):
-                    print("[Error] Invalid value detected for key '{}'"
-                        .format(key))
+                try:
+                    if not value[1](data.get(key)):
+                        print("[Error] Invalid value detected for key '{}'"
+                            .format(key))
+                except:
+                    print("[Error] Internal error")
             # Key is nested
             elif isinstance(value[1], dict):
                 if not isinstance(data.get(key), dict):
