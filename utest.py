@@ -53,17 +53,23 @@ def test_treeview():
         }),
     }
 
+    error = 0
+
     print("TEST 1")
-    if parse(data, rules_test1) == 0:
+    error = parse(data, rules_test1)
+    if not error:
         print("OK")
     else:
         print_parse(data, rules_test1)
+        print("[Error] Code: {}".format(error))
 
     print("TEST 2")
-    if parse(data, rules_test2) == 0:
+    error = parse(data, rules_test2)
+    if not error:
         print("OK")
     else:
         print_parse(data, rules_test2)
+        print("[Error] Code: {}".format(error))
 
 if __name__ == "__main__":
     test_treeview()

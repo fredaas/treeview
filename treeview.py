@@ -20,6 +20,8 @@ def parse(data, rules):
         rules
 
             Rule dictionary corresponding to data payload.
+
+    Returns the error code of the first detected error.
     """
 
     # Check for keys that have no corresponding rule
@@ -29,6 +31,8 @@ def parse(data, rules):
     # Check for duplicate keys
     if len(data) != len(set(data)):
         return ERROR_DUPLICATES
+
+    error = 0
 
     for key, value in rules.items():
         # Required key not found
@@ -46,9 +50,9 @@ def parse(data, rules):
             if not data.get(key) and value[0]:
                 return ERROR_REQUIREDKEY
             else:
-                parse(data.get(key), value[1])
+                error = parse(data.get(key), value[1])
 
-    return 0
+    return error
 
 def print_parse(data, rules, depth=0):
     """
