@@ -47,6 +47,9 @@ def parse(data, rules):
         if isinstance(value, tuple):
             if len(value) != 2:
                 return ERROR_TUPLE
+            # Key is optional
+            elif not data.get(key) and not value[0]:
+                pass
             # Key is required
             elif not data.get(key) and value[0]:
                 return ERROR_REQUIRED
@@ -88,6 +91,9 @@ def print_parse(data, rules, depth=0):
         if isinstance(value, tuple):
             if len(value) != 2:
                 print("[Error] A tuple must have exactly two elements")
+            # Key is optional
+            elif not data.get(key) and not value[0]:
+                pass
             # Key is required
             elif not data.get(key) and value[0]:
                 print("[Error] Key '{}' required but not found".format(key))
