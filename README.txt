@@ -6,7 +6,10 @@ Treeview is lightweight dictionary parser.
 USAGE
 --------------------------------------------------------------------------------
 
-A rule can be written in three ways,
+Treeview is used to check the integrity of a dictionary by comparing it against
+its corresponding rule dictionary. The rule dictionary contains information
+about required and optional fields, constraint functions, and the expected
+structure of the dictionary. A rule can be written in three ways:
 
     1. { <key>: <required> },
 
