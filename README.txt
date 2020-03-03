@@ -8,11 +8,11 @@ USAGE
 
 A rule can be written in three ways,
 
-    1. { "a": <required> },
+    1. { <key>: <required> },
 
-    2. { "a": (<required>, <func>) }, and
+    2. { <key>: (<required>, <func>) }, and
 
-    3. { "a": (1, <dict>) }.
+    3. { <key>: (<required>, <dict>) }.
 
 A key can either be required on optional. This is controlled by setting
 the <required> field to True or False.
