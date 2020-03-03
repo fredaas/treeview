@@ -57,7 +57,6 @@ def parse(data, rules):
                         return ERROR_CONSTRAINT
                 except:
                     return ERROR_FUNCTION
-
             # Key is nested
             elif isinstance(value[1], dict):
                 if not isinstance(data.get(key), dict):
@@ -85,8 +84,6 @@ def print_parse(data, rules, depth=0):
     if len(data) != len(set(data)):
         print("[Error] Duplicate keys detected")
 
-    error = 0
-
     for key, value in rules.items():
         if isinstance(value, tuple):
             if len(value) != 2:
@@ -107,10 +104,8 @@ def print_parse(data, rules, depth=0):
                 if not isinstance(data.get(key), dict):
                     print("[Error] Key '{}' should be nested".format(key))
                 else:
-                    error = print_parse(data.get(key), value[1], depth + 1)
+                    print_parse(data.get(key), value[1], depth + 1)
         else:
             # Key is required
             if not data.get(key) and value:
                 print("[Error] Key '{}' required but not found".format(key))
-
-    return error
